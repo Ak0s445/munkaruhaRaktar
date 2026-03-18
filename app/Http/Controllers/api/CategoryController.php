@@ -3,9 +3,56 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\CategoryRequest;
+use App\Models\Category;
+use App\Services\CategoryService;
+use App\Traits\ResponseTrait;
+use Illuminate\Support\Facades\Gate;
 
 class CategoryController extends Controller
 {
-    
+	use ResponseTrait;
+
+	public function __construct(protected CategoryService $categoryService)
+	{
+	}
+
+	public function getCategories()
+	{
+		$categories = $this->categoryService->getCategories();
+		return $this->sendResponse($categories, 'Kategóriák lekérve.');
+	}
+
+	public function getCategory(Category $category)
+	{
+		$category = $this->categoryService->getCategory($category);
+		return $this->sendResponse($category, 'Kategória lekérve.');
+	}
+
+	public function create(CategoryRequest $request, CategoryService $categoryService)
+	{
+		Gate::authorize('create', Category::class);
+
+		$validated = $request->validated();
+
+		$category = $categoryService->create($validated);
+		return $this->sendResponse($category, 'Kategória létrehozva.');
+	}
+
+	public function update(CategoryRequest $request, Category $category, CategoryService $categoryService)
+	{
+		Gate::authorize('update', $category);
+
+		$validated = $request->validated();
+
+		$category = $categoryService->update($category, $validated);
+		return $this->sendResponse($category, 'Kategória frissítve.');
+	}
+
+	public function delete(Category $category, CategoryService $categoryService)
+	{
+		Gate::authorize('delete', $category);
+
+		return $this->sendResponse($categoryService->delete($category), 'Kategória törölve.');
+	}
 }
