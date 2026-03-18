@@ -13,9 +13,26 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::post('/login', [UserController::class, 'login']);
+Route::post('/register', [UserController::class, 'register']);
 
-//Product
+
 Route::middleware('auth:sanctum')->group(function () {
+    //Auth
+    Route::post('/logout', [UserController::class, 'logout']);
+
+    //My profile
+    Route::get('/profile', [UserController::class, 'getProfile']);
+    Route::put('/profile', [UserController::class, 'updateProfile']);
+    Route::put('/profile/password', [UserController::class, 'setPassword']);
+
+    //Admin
+    Route::get('/users', [UserController::class, 'getProfiles']);
+    Route::put('/users/{user}/make-admin', [UserController::class, 'makeAdmin']);
+    Route::put('/users/{user}/remove-admin', [UserController::class, 'removeAdmin']);
+    Route::delete('/users/{user}', [UserController::class, 'deleteUser']);
+    Route::put('/users/{user}/password', [UserController::class, 'setPasswordByAdmin']);
+    Route::put('/users/{user}/profile', [UserController::class, 'updateProfileByAdmin']);
+
     Route::get('/products', [ProductController::class, 'getProducts']);
     Route::get('/products/{product}', [ProductController::class, 'getProduct']);
     Route::post('/products', [ProductController::class, 'create']);

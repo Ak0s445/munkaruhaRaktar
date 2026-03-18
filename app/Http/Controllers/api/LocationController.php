@@ -19,12 +19,14 @@ class LocationController extends Controller
 
 	public function getLocations()
 	{
+		Gate::authorize('viewAny', Location::class);
 		$locations = $this->locationService->getLocations();
 		return $this->sendResponse($locations, 'Helyek lekérve.');
 	}
 
 	public function getLocation(Location $location)
 	{
+		Gate::authorize('view', $location);
 		$location = $this->locationService->getLocation($location);
 		return $this->sendResponse($location, 'Hely lekérve.');
 	}
@@ -52,7 +54,7 @@ class LocationController extends Controller
 	public function delete(Location $location, LocationService $locationService)
 	{
 		Gate::authorize('delete', $location);
-
-		return $this->sendResponse($locationService->delete($location), 'Hely törölve.');
+		$deleted = $locationService->delete($location);
+		return $this->sendResponse($deleted, 'Hely törölve.');
 	}
 }

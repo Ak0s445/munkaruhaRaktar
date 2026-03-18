@@ -19,12 +19,14 @@ class CategoryController extends Controller
 
 	public function getCategories()
 	{
+		Gate::authorize('viewAny', Category::class);
 		$categories = $this->categoryService->getCategories();
 		return $this->sendResponse($categories, 'Kategóriák lekérve.');
 	}
 
 	public function getCategory(Category $category)
 	{
+		Gate::authorize('view', $category);
 		$category = $this->categoryService->getCategory($category);
 		return $this->sendResponse($category, 'Kategória lekérve.');
 	}
@@ -52,7 +54,7 @@ class CategoryController extends Controller
 	public function delete(Category $category, CategoryService $categoryService)
 	{
 		Gate::authorize('delete', $category);
-
-		return $this->sendResponse($categoryService->delete($category), 'Kategória törölve.');
+		$deleted = $categoryService->delete($category);
+		return $this->sendResponse($deleted, 'Kategória törölve.');
 	}
 }

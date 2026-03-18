@@ -14,7 +14,10 @@ class ProductResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
+        $user = $request->user();
+        $isNormalUser = ($user !== null) && (($user->role ?? null) === 'user');
+
+        $data = [
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
@@ -25,5 +28,11 @@ class ProductResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
+
+        if ($isNormalUser) {
+            unset($data['category'], $data['location']);
+        }
+
+        return $data;
     }
 }

@@ -73,6 +73,30 @@ return [
             'replace_placeholders' => true,
         ],
 
+        'category' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/category.log'),
+            'level' => env('LOG_LEVEL', 'info'),
+            'days' => env('LOG_DAILY_DAYS', 14),
+            'replace_placeholders' => true,
+        ],
+
+        'location' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/location.log'),
+            'level' => env('LOG_LEVEL', 'info'),
+            'days' => env('LOG_DAILY_DAYS', 14),
+            'replace_placeholders' => true,
+        ],
+
+        'user' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/user.log'),
+            'level' => env('LOG_LEVEL', 'info'),
+            'days' => env('LOG_DAILY_DAYS', 14),
+            'replace_placeholders' => true,
+        ],
+
         'auth' => [
             'driver' => 'daily',
             'path' => storage_path('logs/auth.log'),

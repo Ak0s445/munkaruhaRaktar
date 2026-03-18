@@ -53,8 +53,8 @@ class ProductController extends Controller
 	public function delete(Product $product, ProductService $productService)
 	{
 		Gate::authorize('delete', $product);
-
-		return $this->sendResponse($productService->delete($product), 'Termék törölve.');
+		$deleted = $productService->delete($product);
+		return $this->sendResponse($deleted, 'Termék törölve.');
 	}
 }
 
