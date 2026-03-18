@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Location;
 use App\Policies\CategoryPolicy;
+use App\Policies\LocationPolicy;
 use App\Policies\ProductPolicy;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Gate;
@@ -26,5 +28,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Gate::policy(Product::class, ProductPolicy::class);
 		Gate::policy(Category::class, CategoryPolicy::class);
+		Gate::policy(Location::class, LocationPolicy::class);
     }
 }

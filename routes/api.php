@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\UserController;
 use App\Http\Controllers\api\ProductController;
 use App\Http\Controllers\api\CategoryController;
+use App\Http\Controllers\api\LocationController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -27,4 +28,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/categories', [CategoryController::class, 'create']);
     Route::put('/categories/{category}', [CategoryController::class, 'update']);
     Route::delete('/categories/{category}', [CategoryController::class, 'delete']);
+
+    //Location
+    Route::get('/locations', [LocationController::class, 'getLocations']);
+    Route::get('/locations/{location}', [LocationController::class, 'getLocation']);
+    Route::post('/locations', [LocationController::class, 'create']);
+    Route::put('/locations/{location}', [LocationController::class, 'update']);
+    Route::delete('/locations/{location}', [LocationController::class, 'delete']);
 });
